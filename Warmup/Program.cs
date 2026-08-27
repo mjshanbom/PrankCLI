@@ -13,6 +13,7 @@ var pranks = new IPrank[]
     new ToastSpamPrank(),
     new InputChaosPrank(),
     new PopupStormPrank(),
+    new ChessPrank(),
 };
 
 var options = pranks.Select(p => p.Name).Append("All").Append("Exit").ToArray();
