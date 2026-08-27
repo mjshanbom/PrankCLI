@@ -15,17 +15,25 @@ internal sealed class AsciiBombPrank : IPrank
         var rng = new Random();
         int screenWidth = NativeMethods.GetSystemMetrics(NativeMethods.SM_CXSCREEN);
         int screenHeight = NativeMethods.GetSystemMetrics(NativeMethods.SM_CYSCREEN);
+        string exePath = Environment.ProcessPath
+            ?? throw new InvalidOperationException("Could not resolve the current executable path.");
 
         for (int i = 0; i < WindowCount; i++)
         {
-            string art = ArtLibrary.RandomPiece();
+            // Guarantee a user-supplied image shows up at least once per run instead of
+            // leaving it to chance against the built-in art in the shared random pool.
+            string art = (i == 0 ? ArtLibrary.RandomUserImage() : null) ?? ArtLibrary.RandomPiece();
             string tempFile = Path.Combine(Path.GetTempPath(), $"warmup_art_{Guid.NewGuid():N}.txt");
             File.WriteAllText(tempFile, art);
 
-            var process = Process.Start(new ProcessStartInfo("cmd.exe", $"/k type \"{tempFile}\"")
-            {
-                UseShellExecute = true,
-            });
+            // Relaunch ourselves in "--show-art" mode rather than a real cmd.exe shell, so the
+            // popped-up window has no interactive prompt — nothing typed does anything, and the
+            // only way to get rid of it is closing the window.
+            var startInfo = new ProcessStartInfo(exePath) { UseShellExecute = true };
+            startInfo.ArgumentList.Add("--show-art");
+            startInfo.ArgumentList.Add(tempFile);
+
+            var process = Process.Start(startInfo);
 
             if (process is null)
             {

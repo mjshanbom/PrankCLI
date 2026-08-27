@@ -5,17 +5,29 @@ internal static class ArtLibrary
 {
     private static readonly string[] ImageExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".gif"];
 
-    private static readonly Lazy<List<string>> Pool = new(BuildPool);
+    private static readonly Lazy<(List<string> All, List<string> UserImages)> Pool = new(BuildPool);
 
-    public static string RandomPiece() => Pool.Value[Random.Shared.Next(Pool.Value.Count)];
-
-    private static List<string> BuildPool()
+    public static string RandomPiece()
     {
-        var pool = new List<string>();
+        var (all, _) = Pool.Value;
+        return all[Random.Shared.Next(all.Count)];
+    }
+
+    /// <summary>Returns a randomly chosen user-supplied image (converted to ASCII art), or null if none were found.</summary>
+    public static string? RandomUserImage()
+    {
+        var (_, userImages) = Pool.Value;
+        return userImages.Count == 0 ? null : userImages[Random.Shared.Next(userImages.Count)];
+    }
+
+    private static (List<string> All, List<string> UserImages) BuildPool()
+    {
+        var all = new List<string>();
+        var userImages = new List<string>();
 
         foreach (string art in AsciiArt.Pieces)
         {
-            pool.Add(Ansi.Rainbow(art));
+            all.Add(Ansi.Rainbow(art));
         }
 
         string imagesDir = Path.Combine(AppContext.BaseDirectory, "Assets", "Images");
@@ -30,7 +42,9 @@ internal static class ArtLibrary
 
                 try
                 {
-                    pool.Add(ImageAsciiConverter.Convert(file));
+                    string converted = ImageAsciiConverter.Convert(file);
+                    all.Add(converted);
+                    userImages.Add(converted);
                 }
                 catch (Exception)
                 {
@@ -39,6 +53,6 @@ internal static class ArtLibrary
             }
         }
 
-        return pool;
+        return (all, userImages);
     }
 }

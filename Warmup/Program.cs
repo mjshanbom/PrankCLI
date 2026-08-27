@@ -1,6 +1,12 @@
 using Warmup.Pranks;
 using Warmup.Ui;
 
+if (args.Length >= 2 && args[0] == "--show-art")
+{
+    ArtWindow.Show(args[1]);
+    return;
+}
+
 var pranks = new IPrank[]
 {
     new AsciiBombPrank(),
