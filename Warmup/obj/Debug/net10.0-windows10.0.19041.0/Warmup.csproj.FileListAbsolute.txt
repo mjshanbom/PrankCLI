@@ -25,3 +25,4 @@ C:\Users\jmflqxj\OneDrive - JM Family Enterprises\Documents\Academy\Lecture\Lect
 C:\Users\jmflqxj\OneDrive - JM Family Enterprises\Documents\Academy\Lecture\Lecture 6\Warmup\Warmup\Warmup\bin\Debug\net10.0-windows10.0.19041.0\Assets\Images\README.txt
 C:\Users\jmflqxj\OneDrive - JM Family Enterprises\Documents\Academy\Lecture\Lecture 6\Warmup\Warmup\Warmup\bin\Debug\net10.0-windows10.0.19041.0\Assets\Images\IMG_3891.jpeg
 C:\Users\jmflqxj\OneDrive - JM Family Enterprises\Documents\Academy\Lecture\Lecture 6\Warmup\Warmup\Warmup\obj\Debug\net10.0-windows10.0.19041.0\Warmup.sourcelink.json
+C:\Users\jmflqxj\OneDrive - JM Family Enterprises\Documents\Academy\Lecture\Lecture 6\Warmup\Warmup\Warmup\bin\Debug\net10.0-windows10.0.19041.0\Assets\Images\WIN_20260817_09_12_04_Pro.jpg

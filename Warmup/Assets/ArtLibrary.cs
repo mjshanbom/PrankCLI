@@ -1,34 +1,24 @@
 namespace Warmup.Assets;
 
-/// <summary>Combines the built-in ASCII art with any user-supplied images dropped in Assets/Images.</summary>
+/// <summary>Loads ASCII art from the user-supplied images dropped in Assets/Images.</summary>
 internal static class ArtLibrary
 {
     private static readonly string[] ImageExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".gif"];
 
-    private static readonly Lazy<(List<string> All, List<string> UserImages)> Pool = new(BuildPool);
+    private static readonly Lazy<List<string>> Pool = new(BuildPool);
 
-    public static string RandomPiece()
-    {
-        var (all, _) = Pool.Value;
-        return all[Random.Shared.Next(all.Count)];
-    }
+    public static bool HasAny => Pool.Value.Count > 0;
 
     /// <summary>Returns a randomly chosen user-supplied image (converted to ASCII art), or null if none were found.</summary>
-    public static string? RandomUserImage()
+    public static string? RandomPiece()
     {
-        var (_, userImages) = Pool.Value;
-        return userImages.Count == 0 ? null : userImages[Random.Shared.Next(userImages.Count)];
+        var pool = Pool.Value;
+        return pool.Count == 0 ? null : pool[Random.Shared.Next(pool.Count)];
     }
 
-    private static (List<string> All, List<string> UserImages) BuildPool()
+    private static List<string> BuildPool()
     {
-        var all = new List<string>();
-        var userImages = new List<string>();
-
-        foreach (string art in AsciiArt.Pieces)
-        {
-            all.Add(Ansi.Rainbow(art));
-        }
+        var pool = new List<string>();
 
         string imagesDir = Path.Combine(AppContext.BaseDirectory, "Assets", "Images");
         if (Directory.Exists(imagesDir))
@@ -42,9 +32,7 @@ internal static class ArtLibrary
 
                 try
                 {
-                    string converted = ImageAsciiConverter.Convert(file);
-                    all.Add(converted);
-                    userImages.Add(converted);
+                    pool.Add(ImageAsciiConverter.Convert(file));
                 }
                 catch (Exception)
                 {
@@ -53,6 +41,6 @@ internal static class ArtLibrary
             }
         }
 
-        return (all, userImages);
+        return pool;
     }
 }

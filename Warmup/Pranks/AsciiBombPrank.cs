@@ -12,6 +12,12 @@ internal sealed class AsciiBombPrank : IPrank
 
     public void Run()
     {
+        if (!ArtLibrary.HasAny)
+        {
+            Console.WriteLine("No photos found in Assets/Images — drop some .png/.jpg files in there and rebuild.");
+            return;
+        }
+
         var rng = new Random();
         int screenWidth = NativeMethods.GetSystemMetrics(NativeMethods.SM_CXSCREEN);
         int screenHeight = NativeMethods.GetSystemMetrics(NativeMethods.SM_CYSCREEN);
@@ -20,9 +26,7 @@ internal sealed class AsciiBombPrank : IPrank
 
         for (int i = 0; i < WindowCount; i++)
         {
-            // Guarantee a user-supplied image shows up at least once per run instead of
-            // leaving it to chance against the built-in art in the shared random pool.
-            string art = (i == 0 ? ArtLibrary.RandomUserImage() : null) ?? ArtLibrary.RandomPiece();
+            string art = ArtLibrary.RandomPiece()!;
             string tempFile = Path.Combine(Path.GetTempPath(), $"warmup_art_{Guid.NewGuid():N}.txt");
             File.WriteAllText(tempFile, art);
 

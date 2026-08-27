@@ -20,7 +20,7 @@ var options = pranks.Select(p => p.Name).Append("All").Append("Exit").ToArray();
 while (true)
 {
     Console.Clear();
-    int choice = ArrowMenu.Show("Warmup Prank Tool - pick your chaos (Up/Down, Enter, Esc to exit)", options);
+    int choice = ArrowMenu.Show("Code Jam Prank Tool - pick your chaos (Up/Down, Enter, Esc to exit)", options);
 
     if (choice == -1 || options[choice] == "Exit")
     {
