@@ -1,2 +1,4 @@
 .vs
 .claude
+bin/
+obj/
