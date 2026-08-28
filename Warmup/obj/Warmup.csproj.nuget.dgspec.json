@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jmflqxj\\OneDrive - JM Family Enterprises\\Documents\\Academy\\Lecture\\Lecture 6\\Warmup\\Warmup\\Warmup\\Warmup.csproj": {}
+    "C:\\Users\\jmfqcrf\\source\\repos\\PrankCLI\\Warmup\\Warmup.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jmflqxj\\OneDrive - JM Family Enterprises\\Documents\\Academy\\Lecture\\Lecture 6\\Warmup\\Warmup\\Warmup\\Warmup.csproj": {
+    "C:\\Users\\jmfqcrf\\source\\repos\\PrankCLI\\Warmup\\Warmup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jmflqxj\\OneDrive - JM Family Enterprises\\Documents\\Academy\\Lecture\\Lecture 6\\Warmup\\Warmup\\Warmup\\Warmup.csproj",
+        "projectUniqueName": "C:\\Users\\jmfqcrf\\source\\repos\\PrankCLI\\Warmup\\Warmup.csproj",
         "projectName": "Warmup",
-        "projectPath": "C:\\Users\\jmflqxj\\OneDrive - JM Family Enterprises\\Documents\\Academy\\Lecture\\Lecture 6\\Warmup\\Warmup\\Warmup\\Warmup.csproj",
-        "packagesPath": "C:\\Users\\jmflqxj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jmflqxj\\OneDrive - JM Family Enterprises\\Documents\\Academy\\Lecture\\Lecture 6\\Warmup\\Warmup\\Warmup\\obj\\",
+        "projectPath": "C:\\Users\\jmfqcrf\\source\\repos\\PrankCLI\\Warmup\\Warmup.csproj",
+        "packagesPath": "C:\\Users\\jmfqcrf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jmfqcrf\\source\\repos\\PrankCLI\\Warmup\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jmflqxj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jmfqcrf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

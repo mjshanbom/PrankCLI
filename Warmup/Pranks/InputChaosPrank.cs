@@ -17,7 +17,7 @@ internal sealed class InputChaosPrank : IPrank
             return;
         }
 
-        IntPtr handle = WaitForMainWindowHandle(process);
+        IntPtr handle = NativeMethods.WaitForMainWindowHandle(process);
         if (handle != IntPtr.Zero)
         {
             NativeMethods.SetForegroundWindow(handle);
@@ -51,20 +51,5 @@ internal sealed class InputChaosPrank : IPrank
             NativeMethods.SendUnicodeChar(c);
             Thread.Sleep(60);
         }
-    }
-
-    private static IntPtr WaitForMainWindowHandle(Process process)
-    {
-        var deadline = DateTime.UtcNow.AddSeconds(2);
-        while (DateTime.UtcNow < deadline)
-        {
-            process.Refresh();
-            if (process.MainWindowHandle != IntPtr.Zero)
-            {
-                return process.MainWindowHandle;
-            }
-            Thread.Sleep(20);
-        }
-        return IntPtr.Zero;
     }
 }
