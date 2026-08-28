@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text;
 using Warmup.Native;
 
@@ -22,9 +21,6 @@ internal sealed class ChessPrank : IPrank
         bool whiteToMove = true;
         int moveNumber = 0;
         int windowIndex = 0;
-
-        string exePath = Environment.ProcessPath
-            ?? throw new InvalidOperationException("Could not resolve the current executable path.");
 
         Console.Clear();
         Console.WriteLine("Chess Chaos - every move you make pops open a new window showing the board.");
@@ -63,7 +59,7 @@ internal sealed class ChessPrank : IPrank
 
             string boardText = BuildBoardText(board, moveNumber, whiteToMove, input);
             Console.Write(boardText);
-            SpawnBoardWindow(exePath, boardText, windowIndex++);
+            SpawnBoardWindow(boardText, windowIndex++);
 
             if (char.ToUpperInvariant(captured) == 'K')
             {
@@ -76,27 +72,11 @@ internal sealed class ChessPrank : IPrank
         }
     }
 
-    private static void SpawnBoardWindow(string exePath, string boardText, int windowIndex)
+    // Cascades each new board window down-and-right from the last so the trail of moves stays
+    // readable instead of stacking exactly on top of itself. See ArtWindowLauncher for the
+    // process-spawn/reposition mechanics shared with AsciiBombPrank.
+    private static void SpawnBoardWindow(string boardText, int windowIndex)
     {
-        string tempFile = Path.Combine(Path.GetTempPath(), $"warmup_chess_{Guid.NewGuid():N}.txt");
-        File.WriteAllText(tempFile, boardText);
-
-        var startInfo = new ProcessStartInfo(exePath) { UseShellExecute = true };
-        startInfo.ArgumentList.Add("--show-art");
-        startInfo.ArgumentList.Add(tempFile);
-
-        var process = Process.Start(startInfo);
-        if (process is null)
-        {
-            return;
-        }
-
-        IntPtr handle = WaitForMainWindowHandle(process);
-        if (handle == IntPtr.Zero)
-        {
-            return;
-        }
-
         int screenWidth = NativeMethods.GetSystemMetrics(NativeMethods.SM_CXSCREEN);
         int screenHeight = NativeMethods.GetSystemMetrics(NativeMethods.SM_CYSCREEN);
         int columns = Math.Max(1, (screenWidth - WindowWidth) / CascadeStep);
@@ -105,22 +85,7 @@ internal sealed class ChessPrank : IPrank
         int x = (cell % columns) * CascadeStep;
         int y = (cell / columns) * CascadeStep;
 
-        NativeMethods.MoveWindow(handle, x, y, WindowWidth, WindowHeight, true);
-    }
-
-    private static IntPtr WaitForMainWindowHandle(Process process)
-    {
-        var deadline = DateTime.UtcNow.AddSeconds(2);
-        while (DateTime.UtcNow < deadline)
-        {
-            process.Refresh();
-            if (process.MainWindowHandle != IntPtr.Zero)
-            {
-                return process.MainWindowHandle;
-            }
-            Thread.Sleep(20);
-        }
-        return IntPtr.Zero;
+        ArtWindowLauncher.Spawn(boardText, x, y, WindowWidth, WindowHeight);
     }
 
     private static char[,] CreateStartingBoard()

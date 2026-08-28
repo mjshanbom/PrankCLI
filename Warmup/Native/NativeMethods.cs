@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Warmup.Native;
@@ -140,5 +141,22 @@ internal static class NativeMethods
             }
         };
         SendInput(2, [down, up], Marshal.SizeOf<INPUT>());
+    }
+
+    // Moved this function from ChessPrank, InputChaosPrank, and AsciiBombPrank files 
+    // in order to reduce duplicated code. 
+    public static IntPtr WaitForMainWindowHandle(Process process, int timeoutMs = 2000)
+    {
+        var deadline = DateTime.UtcNow.AddMilliseconds(timeoutMs);
+        while (DateTime.UtcNow < deadline)
+        {
+            process.Refresh();
+            if (process.MainWindowHandle != IntPtr.Zero)
+            {
+                return process.MainWindowHandle;
+            }
+            Thread.Sleep(20);
+        }
+        return IntPtr.Zero;
     }
 }
