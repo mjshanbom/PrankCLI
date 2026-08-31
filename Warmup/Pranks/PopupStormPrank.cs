@@ -2,6 +2,12 @@ using Warmup.Native;
 
 namespace Warmup.Pranks;
 
+//Nice pattern overall — the recursive increment/decrement logic is solid. One small thing: in the initial seeding loop,
+//we increment ActiveCount with a plain ++ while every other update uses Interlocked.
+//Since threads can start running before the loop finishes, we might get a lost update or an early AllDone signal.
+//It hasn't shown up in practice because MessageBoxW blocks on a someone closing it,
+//but we'd be safer setting state.ActiveCount = InitialCount; once before starting any threads, then just .Start() them in the loop — that removes the race entirely.
+
 internal sealed class PopupStormPrank : IPrank
 {
     public string Name => "Popup Storm";
