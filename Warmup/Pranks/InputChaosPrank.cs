@@ -3,6 +3,11 @@ using Warmup.Native;
 
 namespace Warmup.Pranks;
 
+// We see that WaitForMainWindowHandle is copy pasted in ChessPrank.cs, AsciiBombPrank.cs and InputChaos.cs
+// We can keep the code DRY-er by creating a utility class and making this a static method, able to be used across the codebase.
+// We can also move our Message string from the bee movie to assets, this way we keep our codebase consistant by using the 
+// same mechanism as we do in AsciiBombPrank.
+
 internal sealed class InputChaosPrank : IPrank
 {
     public string Name => "Input Chaos";

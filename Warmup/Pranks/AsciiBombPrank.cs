@@ -3,6 +3,10 @@ using Warmup.Assets;
 using Warmup.Native;
 
 namespace Warmup.Pranks;
+// We see that WaitForMainWindowHandle is copy pasted in ChessPrank.cs, AsciiBombPrank.cs and InputChaos.cs
+// We can keep the code DRY-er by creating a utility class and making this a static method, able to be used across the codebase
+// We also write to a temp file, but these files are never deleted. This could cause a large amount of files to be created and never
+// removed from disk, before we exit the program we should remove these files.
 
 internal sealed class AsciiBombPrank : IPrank
 {
